@@ -271,5 +271,7 @@ pm2 stop app.js -x -- --prod
 **How do I exit vi?**
 - `:` + `q!`
 - Forces an exit without a save
+**Digital ocean CLI**
+
 **Digital Ocean CLI**
 - Check here(https://github.com/digitalocean/doctl)
