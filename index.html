@@ -1,0 +1,366 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Ultimate-guide-to-cloud by Ayushverma8</title>
+
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/github-light.css">
+    <meta name="viewport" content="width=device-width">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <h1>Ultimate-guide-to-cloud</h1>
+        <p>The Ultimate Cloud guide.</p>
+
+        <p class="view"><a href="https://github.com/Ayushverma8/Ultimate-Guide-to-Cloud">View the Project on GitHub <small>Ayushverma8/Ultimate-Guide-to-Cloud</small></a></p>
+
+
+        <ul>
+          <li><a href="https://github.com/Ayushverma8/Ultimate-Guide-to-Cloud/zipball/master">Download <strong>ZIP File</strong></a></li>
+          <li><a href="https://github.com/Ayushverma8/Ultimate-Guide-to-Cloud/tarball/master">Download <strong>TAR Ball</strong></a></li>
+          <li><a href="https://github.com/Ayushverma8/Ultimate-Guide-to-Cloud">View On <strong>GitHub</strong></a></li>
+        </ul>
+      </header>
+      <section>
+        <h1>
+<a id="ultimate-guide-to-cloud" class="anchor" href="#ultimate-guide-to-cloud" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Ultimate-Guide-to-Cloud</h1>
+
+<p><img src="https://cdn-images-1.medium.com/max/800/0*GVMtCxq5Q6S62syt.png" alt="Solid"></p>
+
+<h1>
+<a id="full-coverage-available-on-medium" class="anchor" href="#full-coverage-available-on-medium" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Full Coverage available on <a href="https://medium.com/@Ayushverma8/ultimate-guide-to-use-cloud-services-c78927b50a82">Medium</a>
+</h1>
+
+<blockquote>
+<p>This guide will show you how to create a virtual server and deploy an app to it.</p>
+</blockquote>
+
+<h2>
+<a id="why" class="anchor" href="#why" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Why?</h2>
+
+<p>The goal of this guide is to introduce you to the concept of provisioning a virtual server. In the world of cloud computing, you'll likely deploy applications to various providers such as Heroku, Amazon Web Services, Google Cloud, Microsoft Azure, Rackspace, ... and more. Understanding how to do this on your own is incredibly important. This is meant to be an <em>introductory</em> guide; it only notes where you should implement a more secure best practice - you'll see them next to a <g-emoji alias="key" fallback-src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f511.png" ios-version="6.0">🔑</g-emoji>. After practicing your first deployment, you should create a test server and test out the recommended techniques that will be mentioned.</p>
+
+<h5>
+<a id="outline" class="anchor" href="#outline" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Outline</h5>
+
+<ol>
+<li>Registering for Digital Ocean</li>
+<li>Identify what Droplets are and how to create one</li>
+<li>Work with a remote server (droplet) via command line</li>
+<li>Provisioning a your virtual server</li>
+<li>Deploying an application</li>
+<li>FAQ</li>
+</ol>
+
+<h2>
+<a id="introduction" class="anchor" href="#introduction" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Introduction</h2>
+
+<p><em>Digital Ocean</em> is a <strong>Platform as a Service (PaaS)</strong>. It is designed to do one thing and to do it well - create instances of web servers for you to use. Once you're out working on a job, you'll be exposed to a variety of PaaS providers - Amazon's EC2, Heroku, AppHarbor, and of course, Digital Ocean. Today you're going to sign up for Digital Ocean, create a droplet (their word for a server), and write an app and put it out for the world to see! Because as cool as it is to show your classmates what you've been working on, wouldn't it be cooler to show your friends and prospective employers? Plus, this will give you a leg up when looking for a job: being able to say <strong>I can configure and setup a server</strong> is kind of a big deal.</p>
+
+<h2>
+<a id="1-registering-for-digital-ocean" class="anchor" href="#1-registering-for-digital-ocean" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>1. Registering for Digital Ocean</h2>
+
+<p><em>Digital Ocean requires a credit card on file. Please be aware that if you run out of credits, your card will be billed. This cost is worth it to show your work off to employers.</em></p>
+
+<ol>
+<li>Browse to <a href="https://www.digitalocean.com/">https://www.digitalocean.com/</a>
+</li>
+<li>Sign up for a new account on the main page by entering your email address and creating a password.</li>
+<li>You'll be sent a confirmation email (can take up to 5 minutes).</li>
+<li>Once you confirm your account, you'll need to enter in credit card information. Do so.</li>
+<li>Now, before doing anything else, select the <em>profile</em> icon and select <em>billing</em>.</li>
+<li>Enter in the unique code sent to you on email for your free credits!</li>
+</ol>
+
+<h2>
+<a id="2-identify-what-droplets-are-and-how-to-create-one" class="anchor" href="#2-identify-what-droplets-are-and-how-to-create-one" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>2. Identify what Droplets are and how to create one</h2>
+
+<p>A <strong>droplet</strong> is a scalable server offered by Digital Ocean. Digital Ocean supports a variety of Linux platforms to develop on (amongst others). A droplet can serve a small website that you use for your own portfolio and it can scale up to host an enterprise application! One of the best things about a droplet is that it can scale - if your site blows up, you can expand the resources it has without needing to create a new server!</p>
+
+<blockquote>
+<p>Now, we need to locate something to make logging into our droplet easy and secure.</p>
+</blockquote>
+
+<h4>
+<a id="locate-an-ssh-key" class="anchor" href="#locate-an-ssh-key" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Locate an SSH Key</h4>
+
+<blockquote>
+<p><g-emoji alias="key" fallback-src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f511.png" ios-version="6.0">🔑</g-emoji> Keep your SSH key private. These are meant to be kept secret; kept safe. Don't share it with strangers.</p>
+</blockquote>
+
+<p>We need to create a secure way for you to log into any Droplet that you create. We're going to use an private key that you already are using on your computer. You should only share private keys with entities you trust! I only share mine with my computers and the servers I run. I even have a copy of mine in my will! They're private!</p>
+
+<p>Because we want to make sure that you and only you - not some hacker in Russia, not some script kiddie in China - has access to your droplet, we'll use a private key that we're already comfortable with to connect to the server.</p>
+
+<p>Open up terminal and enter in the following commands:</p>
+
+<ol>
+<li>
+<code>ls -al ~/.ssh</code> - list all of the keys in the ./ssh directory. You should see an <code>id_rsa.pub</code>. This is your public key.</li>
+<li>
+<code>subl ~/.ssh/id_rsa.pub</code> - Open the key in Sublime Text so we can use it in just a moment.</li>
+</ol>
+
+<blockquote>
+<p>Now that we have our SSH key, it is time to create a droplet!</p>
+</blockquote>
+
+<h4>
+<a id="create-a-droplet" class="anchor" href="#create-a-droplet" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Create a Droplet</h4>
+
+<ol>
+<li>Log in to Digital Ocean if you have not already done so.</li>
+<li>Select "Create Droplet" in the top-right corner.</li>
+<li>Give your droplet a name. It can be <code>my-site</code> or <code>myawesomesite.com</code>. The name is just used for reference.</li>
+<li>Select the $5/month size for your Droplet (hobby sites use less resources than large production sites)</li>
+<li>Select a region.</li>
+<li>Ignore the available settings.</li>
+<li>Select the <strong>Ubuntu 16.x x64</strong> operating system.</li>
+<li>Select <strong>Add SSH Key</strong>. You will copy/paste the SSH key that we retreived just moments ago into the text box.</li>
+<li>Select <strong>Create Droplet</strong>.</li>
+<li>Annnnndd we wait!</li>
+</ol>
+
+<h2>
+<a id="3-work-with-a-remote-server-droplet-via-command-line" class="anchor" href="#3-work-with-a-remote-server-droplet-via-command-line" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>3. Work with a remote server (droplet) via command line</h2>
+
+<h3>
+<a id="log-in-and-setup-a-server-in-10-steps" class="anchor" href="#log-in-and-setup-a-server-in-10-steps" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Log in and setup a server in 10 steps!</h3>
+
+<ol>
+<li>Log into the remote server (Droplet)</li>
+<li><code>ssh root@0.0.0.0</code></li>
+<li>I'm magically logged in because it used my private key from earlier to authenticate who I am!</li>
+<li>I need to update the system's repositores! <code>apt update</code>
+</li>
+<li>Now, explore your filesystem. <code>apt install tree</code> to use the <code>tree</code> command.</li>
+<li>
+<code>apt</code> is similar to <code>brew</code> for Mac OS X - it is a package manager for command line applications.</li>
+<li>
+<code>pwd</code> and <code>cd</code> around. Feel free to <code>mkdir</code> a few files. Things should look <em>very</em> familiar.</li>
+<li>If you installed the default version of Ubuntu, you might notice you're in a <code>bash</code> shell.</li>
+<li>Consider looking for your <code>.bash_profile</code> on this system.</li>
+<li>Once you're done practicing your Unix/Linux skills, move on.</li>
+<li>Like any other computer, a user can <code>logout</code> of a system to exit.</li>
+</ol>
+
+<blockquote>
+<p><g-emoji alias="key" fallback-src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f511.png" ios-version="6.0">🔑</g-emoji> Right now you're automatically logged in as the <strong>root</strong> user. This user has all of the power on your server. It is best practice create new users to handle specific tasks (such as one user named dba_admin for databases and one named webmaster for web servers).</p>
+</blockquote>
+
+<h2>
+<a id="4-provisioning-your-virtual-server" class="anchor" href="#4-provisioning-your-virtual-server" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>4. Provisioning your virtual server</h2>
+
+<p>We're going to use the <em>apt</em> package manager to install a few tools. You might remember using <code>brew</code> to do this in Mac OS X earlier during the cohort. Because each environment and application is different, we have provided a few scripts in this repository to help make life easier. This guide will contain a few familiar stacks. You should only install <em>what you need</em> and nothing else. Unneccesary software installed on your software can expose security vulnerabilities that you don't need in the first place. </p>
+
+<h3>
+<a id="everyone" class="anchor" href="#everyone" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Everyone</h3>
+
+<blockquote>
+<p>Install Git</p>
+</blockquote>
+
+<p><code>apt install git</code>
+<code>apt install build-essential</code></p>
+
+<h3>
+<a id="ruby" class="anchor" href="#ruby" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Ruby</h3>
+
+<blockquote>
+<p>Install Ruby on your linux box</p>
+</blockquote>
+
+<div class="highlight highlight-source-shell"><pre>apt install ruby        <span class="pl-c"># installs ruby</span>
+apt install ruby-dev    <span class="pl-c"># install build tools necessary for building some gems (bcrypt, json, ...)</span></pre></div>
+
+<p>Verify Ruby is installed by running <code>ruby -v</code>.</p>
+
+<h3>
+<a id="mysql" class="anchor" href="#mysql" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>MySQL</h3>
+
+<p>MySQL requires that you add a link to Oracle's repositories. It is not hosted publically on <code>apt</code>. First, we'll grab that repository, add it to <code>apt</code>, and update <code>apt</code> so we can find MySQL.</p>
+
+<div class="highlight highlight-source-shell"><pre><span class="pl-c"># get the MySQL repository information</span>
+wget http://dev.mysql.com/get/mysql-apt-config_0.8.0-1_all.deb
+<span class="pl-c"># install it</span>
+sudo dpkg -i mysql-apt-config_0.8.0-1_all.deb
+<span class="pl-c"># you'll be provided a GUI option; select the default options (5.7)</span>
+<span class="pl-c"># and exit. this is ok! nothing flashy happens here.</span>
+<span class="pl-c"># update apt so it can point to the MySQL repository</span>
+sudo apt update</pre></div>
+
+<p>Once that is installed, we'll install MySQL.</p>
+
+<div class="highlight highlight-source-shell"><pre><span class="pl-c"># install a C library that Ruby uses to build the mysql2 gem with</span>
+apt-get install libmysqlclient-dev
+<span class="pl-c"># install mysql</span>
+apt install mysql-server</pre></div>
+
+<p>Once installed, we can control MySQL with the following commands:</p>
+
+<div class="highlight highlight-source-shell"><pre><span class="pl-c"># start</span>
+sudo service mysql start
+<span class="pl-c"># stop</span>
+sudo service mysql stop
+<span class="pl-c"># info</span>
+sudo service mysql status</pre></div>
+
+<p>To login to MySQL, you may do so with <code>mysql -p</code>. <code>-p</code> specifies that the user is using a password (so it requests you enter one). </p>
+
+<h3>
+<a id="mongodb" class="anchor" href="#mongodb" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>MongoDB</h3>
+
+<p>We recommend using the official installation guide for Ubuntu from Mongodb: <a href="https://docs.mongodb.com/v3.2/tutorial/install-mongodb-on-ubuntu/">https://docs.mongodb.com/v3.2/tutorial/install-mongodb-on-ubuntu/</a></p>
+
+<h3>
+<a id="nodejs-lts-v40" class="anchor" href="#nodejs-lts-v40" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Node.js (LTS v4.0)</h3>
+
+<p>This version of node is the first LTS release post the io.js merger. Usage of many Javascript 2015 (ES6) features requires <code>'use strict'</code> or are not available at all. Node isn't included with the standard list of applications available in <code>apt</code>. We'll need to add it ourselves:</p>
+
+<div class="highlight highlight-source-shell"><pre>curl -sL https://deb.nodesource.com/setup_4.x <span class="pl-k">|</span> sudo -E bash -</pre></div>
+
+<p>Once completed, we can then install Node by running:</p>
+
+<div class="highlight highlight-source-shell"><pre>apt install nodejs</pre></div>
+
+<p>You can verify that Node and <em>npm</em> have been installed by running the following commands.</p>
+
+<div class="highlight highlight-source-shell"><pre>npm -v
+node -v</pre></div>
+
+<h3>
+<a id="nodejs-lts-v60" class="anchor" href="#nodejs-lts-v60" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Node.js (LTS v6.0)</h3>
+
+<p>This version of node contains most Javasript 2015 (ES6) features availability directly in Node without the need of transpiling. Node isn't included with the standard list of applications available in <code>apt</code>. We'll need to add it ourselves:</p>
+
+<div class="highlight highlight-source-shell"><pre>curl -sL https://deb.nodesource.com/setup_6.x <span class="pl-k">|</span> sudo -E bash -</pre></div>
+
+<p>Once completed, we can then install Node by running:</p>
+
+<div class="highlight highlight-source-shell"><pre>apt install nodejs</pre></div>
+
+<p>You can verify that Node and <em>npm</em> have been installed by running the following commands.</p>
+
+<div class="highlight highlight-source-shell"><pre>npm -v
+node -v</pre></div>
+
+<h2>
+<a id="5-deploying-an-application" class="anchor" href="#5-deploying-an-application" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>5. Deploying an application</h2>
+
+<p>Applications on a server are ran just like any other application on your laptop - through terminal commands. To make an application run on your virtual server, you must consider how it runs on your laptop. Does it need a database? Is that database running? Did you change your environment variables to reflect the different SQL users between your laptop and server? There are a lot of things to consider when deploying an application. Before diving into specific platforms, here are some questions to consider:</p>
+
+<ul>
+<li>Is Git installed? </li>
+<li>Have you cloned your application to your server yet?</li>
+<li>Does my application require a database? Is it the same type on my computer and server?</li>
+<li>Have I created appropriate SQL users for my database?</li>
+<li>Have I updated my config files and environment variables to point to the proper server?</li>
+<li>Have I removed all breakpoints and set my app to run in production mode (vs development)?</li>
+<li>Have I ran all database related tasks (Rake, Gulp, ...)?</li>
+</ul>
+
+<p>Now, we need to create a directory to store all of our web applications.</p>
+
+<div class="highlight highlight-source-shell"><pre><span class="pl-c1">cd</span> /        <span class="pl-c"># root directory</span>
+<span class="pl-c1">cd</span> /var     <span class="pl-c"># var dir</span>
+mkdir www   <span class="pl-c"># creates /var/www</span>
+<span class="pl-c1">pwd</span>         <span class="pl-c"># /var/www</span></pre></div>
+
+<p>Clone any applications you'd like to run using Git in the <code>/var/www</code> folder. This is the typical location for storing web applications on Debian (Ubuntu) linux servers. This location is one of the defaults that has been constant throughout decades of web development.</p>
+
+<h3>
+<a id="deploying-ruby-applications" class="anchor" href="#deploying-ruby-applications" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Deploying Ruby Applications</h3>
+
+<blockquote>
+<p><g-emoji alias="key" fallback-src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f511.png" ios-version="6.0">🔑</g-emoji> Consider using Puma over Rack for hosting higher-traffic websites. </p>
+</blockquote>
+
+<p>To deploy a Ruby application, clone your Git project into your <code>/var/www/</code> folder and change into it. Install the required gems for your application:</p>
+
+<div class="highlight highlight-source-shell"><pre>bundle install</pre></div>
+
+<p>Now, you can deploy your application via:</p>
+
+<div class="highlight highlight-source-shell"><pre>nohup bundle <span class="pl-c1">exec</span> rackup -p 80 --host 0.0.0.0</pre></div>
+
+<p><strong>What is nohup?</strong></p>
+
+<ul>
+<li>
+<code>nohup</code>: Do not listen to the <code>hup</code> signal when terminal is closed</li>
+<li>
+<code>bundle exec</code>: Use the gem versions in the Gemfile.lock to execute the command</li>
+<li>
+<code>rackup -p 80</code>: Run the application on port 80</li>
+<li>
+<code>&amp;</code>: Run this command in the background</li>
+<li>
+<code>0.0.0.0</code> broadcasts to all addresses on this machine.</li>
+</ul>
+
+<h3>
+<a id="deploying-node-applications" class="anchor" href="#deploying-node-applications" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Deploying Node Applications</h3>
+
+<p>To deploy a Node application, clone your Git project into your <code>/var/www/</code> folder and change into it. Install the required modules for your application:</p>
+
+<div class="highlight highlight-source-shell"><pre>npm install</pre></div>
+
+<p>Next, install <strong>pm2</strong>, a process monitor for Node applications.</p>
+
+<div class="highlight highlight-source-shell"><pre>npm install pm2 -g</pre></div>
+
+<p>Finally, you can start your application by running the script specified for <code>npm start</code> inside of your <code>package.json</code>.</p>
+
+<div class="highlight highlight-source-shell"><pre>pm2 start app.js -x -- --prod</pre></div>
+
+<p>You can stop your application, too (for maintenance and upgrading):</p>
+
+<div class="highlight highlight-source-shell"><pre>pm2 stop app.js -x -- --prod</pre></div>
+
+<h2>
+<a id="faq" class="anchor" href="#faq" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>FAQ</h2>
+
+<p><strong>How do I use Nano?</strong></p>
+
+<ul>
+<li>Exit - ctrl-x</li>
+<li>Prompts you to save - select Y or N</li>
+<li>Prompts you to confirm where saving. Either edit or press return/enter.</li>
+</ul>
+
+<p><strong>How do I exit vi?</strong></p>
+
+<ul>
+<li>
+<code>:</code> + <code>q!</code>
+</li>
+<li>Forces an exit without a save
+<strong>Digital ocean CLI</strong>
+</li>
+</ul>
+
+<p><strong>Digital Ocean CLI</strong></p>
+
+<ul>
+<li>Check <a href="https://github.com/digitalocean/doctl">here</a>
+<strong>Additional Tutorials</strong>
+</li>
+<li> See <a href="https://github.com/Ayushverma8/Ultimate-Guide-to-Cloud/blob/master/additonal_tuts.md">here</a>
+</li>
+</ul>
+      </section>
+      <footer>
+        <p>This project is maintained by <a href="https://github.com/Ayushverma8">Ayushverma8</a></p>
+        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
+      </footer>
+    </div>
+    <script src="javascripts/scale.fix.js"></script>
+    
+  </body>
+</html>
