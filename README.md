@@ -2,6 +2,7 @@
 ![Solid](https://cdn-images-1.medium.com/max/800/0*GVMtCxq5Q6S62syt.png)
 # Full Coverage available on [Medium](https://medium.com/@Ayushverma8/ultimate-guide-to-use-cloud-services-c78927b50a82)
 # View on Github [Page](https://ayushverma8.github.io/Ultimate-Guide-to-Cloud/)
+# View on Gitbook [Page](https://ayushverma8.gitbooks.io/ultimate-guide-to-cloud/content/)
 > This guide will show you how to create a virtual server and deploy an app to it.
 
 
